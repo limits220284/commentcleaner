@@ -4,55 +4,74 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
+)
+
+const (
+	StatusString = iota
+	StatusBlock
+	StatusPre
+	StatusBlockEnd
+)
+
+const (
+	SymbolSlash    = '/'
+	SymbolAsterisk = '*'
+	SymbolSharp    = '#'
 )
 
 func removeCommentsForSlash(source []string) []string {
 	var cur string
-	status := "str"
+	status := StatusString
 	var res []string
 
 	for _, s := range source {
+		if s == "" {
+			res = append(res, s)
+		}
 		for i := 0; i < len(s); i++ {
 			ch := s[i]
 
-			if status == "str" {
-				if ch == '/' {
-					status = "pre"
+			if status == StatusString {
+				if ch == SymbolSlash {
+					status = StatusPre
 				} else {
 					cur += string(ch)
 				}
-			} else if status == "pre" {
-				if ch == '/' {
-					status = "str"
+			} else if status == StatusPre {
+				if ch == SymbolSlash {
+					status = StatusString
 					break
-				} else if ch == '*' {
-					status = "block"
+				} else if ch == SymbolAsterisk {
+					status = StatusBlockEnd
 				} else {
-					status = "str"
-					cur += "/" + string(ch)
+					status = StatusString
+					cur += string(SymbolSlash) + string(ch)
 				}
-			} else if status == "block" {
-				if ch == '*' {
-					status = "block_end_pre"
+			} else if status == StatusBlock {
+				if ch == SymbolAsterisk {
+					status = StatusBlockEnd
 				}
-			} else if status == "block_end_pre" {
-				if ch == '/' {
-					status = "str"
-				} else if ch != '*' {
-					status = "block"
+			} else if status == StatusBlockEnd {
+				if ch == SymbolSlash {
+					status = StatusString
+				} else if ch != SymbolAsterisk {
+					status = StatusBlock
 				}
 			}
 		}
 
-		if status == "pre" {
-			cur += "/"
-			status = "str"
-		} else if status == "block_end_pre" {
-			status = "block"
+		if status == StatusPre {
+			cur += string(SymbolSlash)
+			status = StatusString
+		} else if status == StatusBlockEnd {
+			status = StatusBlock
 		}
 
-		if len(cur) != 0 && status == "str" {
-			res = append(res, cur)
+		if len(cur) != 0 && status == StatusString {
+			if strings.TrimSpace(cur) != "" {
+				res = append(res, cur)
+			}
 			cur = ""
 		}
 	}
