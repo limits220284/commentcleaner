@@ -65,7 +65,11 @@ func isTargetFile(fileName string) bool {
 }
 
 func processFiles(filesPath string) error {
-	err := filepath.Walk(filesPath, func(path string, info os.FileInfo, err error) error {
+	abFilesPath, _ := filepath.Abs(filesPath)
+	processedFilesPath := filepath.Dir(abFilesPath) + "\\processed_" + filepath.Base(filesPath)
+	log.Println(processedFilesPath)
+	err := os.CopyFS(processedFilesPath, os.DirFS(filesPath))
+	err = filepath.Walk(filesPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
@@ -94,5 +98,6 @@ func main() {
 	filePath := "todo.go"
 	processFile(filePath)
 	filesPath := "./test_path"
+	// 检查是否存在这个文件夹
 	processFiles(filesPath)
 }

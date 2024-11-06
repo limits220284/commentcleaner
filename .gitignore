@@ -21,3 +21,4 @@ rad.json
 #Test results file
 TestResults.xml
 test_path/
+processed_*/
