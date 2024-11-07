@@ -69,7 +69,7 @@ func processFiles(filesPath string) error {
 	processedFilesPath := filepath.Dir(abFilesPath) + "\\processed_" + filepath.Base(filesPath)
 	log.Println(processedFilesPath)
 	err := os.CopyFS(processedFilesPath, os.DirFS(filesPath))
-	err = filepath.Walk(filesPath, func(path string, info os.FileInfo, err error) error {
+	err = filepath.Walk(processedFilesPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
