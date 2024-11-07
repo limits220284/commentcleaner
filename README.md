@@ -22,4 +22,17 @@ go run main.go <filePath>
 - [x] C
 - [x] C++
 - [x] Java
-- [ ] Python
+- [x] Python
+- [x] Shell
+- [x] Perl
+- [x] Ruby
+- [x] R
+- [x] PowerShell
+- [x] Julia
+- [x] MATLAB/Octave
+- [x] SQL
+- [x] Lua
+- [x] Assembly
+- [x] HTML/XML
+- [x] JavaScript
+- [x] C#
