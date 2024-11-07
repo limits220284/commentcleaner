@@ -2,19 +2,6 @@ package src
 
 import "strings"
 
-const (
-	StatusString = iota
-	StatusBlock
-	StatusPre
-	StatusBlockEnd
-)
-
-const (
-	SymbolSlash    = '/'
-	SymbolAsterisk = '*'
-	SymbolSharp    = '#'
-)
-
 func RemoveCommentsForSlash(source []string) []string {
 	var cur string
 	status := StatusString
