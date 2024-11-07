@@ -60,3 +60,46 @@ func RemoveCommentsForSlash(source []string) []string {
 
 	return res
 }
+
+func RemoveCommentsForHash(source []string) []string {
+	var result []string
+	state := StatusString
+
+	for _, line := range source {
+		i := 0
+		var buffer strings.Builder
+		for i < len(line) {
+			switch state {
+			case StatusString:
+				if line[i] == SymbolSharp {
+					state = StatusLineComment
+				} else if i <= len(line)-3 && ((line[i] == SymbolQuote && line[i+1] == SymbolQuote && line[i+2] == SymbolQuote) ||
+					(line[i] == SymbolSingleQuote && line[i+1] == SymbolSingleQuote && line[i+2] == SymbolSingleQuote)) {
+					state = StatusBlock
+					i += 2
+				} else {
+					buffer.WriteByte(line[i])
+				}
+			case StatusLineComment:
+				i = len(line) - 1
+			case StatusBlock:
+				if i <= len(line)-3 && ((line[i] == SymbolQuote && line[i+1] == SymbolQuote && line[i+2] == SymbolQuote) ||
+					(line[i] == SymbolSingleQuote && line[i+1] == SymbolSingleQuote && line[i+2] == SymbolSingleQuote)) {
+					state = StatusString
+					i += 2
+				}
+			}
+			i++
+		}
+
+		if (state == StatusString || state == StatusLineComment) && strings.TrimSpace(buffer.String()) != "" {
+			result = append(result, buffer.String())
+		}
+
+		if state == StatusLineComment {
+			state = StatusString
+		}
+	}
+
+	return result
+}

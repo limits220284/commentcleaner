@@ -5,10 +5,13 @@ const (
 	StatusBlock
 	StatusPre
 	StatusBlockEnd
+	StatusLineComment
 )
 
 const (
-	SymbolSlash    = '/'
-	SymbolAsterisk = '*'
-	SymbolSharp    = '#'
+	SymbolSlash       = '/'
+	SymbolAsterisk    = '*'
+	SymbolSharp       = '#'
+	SymbolQuote       = '"'
+	SymbolSingleQuote = '\''
 )

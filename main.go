@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/limits220284/commentcleaner/src"
 	"github.com/limits220284/commentcleaner/utils"
@@ -15,10 +14,6 @@ func processFile(filePath string) {
 	content := utils.ReadFile(filePath)
 	result := src.RemoveCommentsForSlash(content)
 	utils.WriteToFile("todo.txt", result)
-}
-
-func isTargetFile(fileName string) bool {
-	return strings.HasSuffix(fileName, ".go")
 }
 
 func processFiles(filesPath string) error {

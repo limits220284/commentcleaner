@@ -39,7 +39,7 @@ type Python struct {
 }
 
 func (Python) RemoveComments(source []string) []string {
-	return RemoveCommentsForSlash(source)
+	return RemoveCommentsForHash(source)
 }
 
 type Cpp struct {
