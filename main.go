@@ -10,12 +10,6 @@ import (
 	"github.com/limits220284/commentcleaner/utils"
 )
 
-func processFile(filePath string) {
-	content := utils.ReadFile(filePath)
-	result := src.RemoveCommentsForSlash(content)
-	utils.WriteToFile("todo.txt", result)
-}
-
 func processFiles(filesPath string) error {
 	abFilesPath, _ := filepath.Abs(filesPath)
 	processedFilesPath := filepath.Dir(abFilesPath) + "\\processed_" + filepath.Base(filesPath)
