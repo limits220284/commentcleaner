@@ -49,6 +49,10 @@ func processFiles(filesPath string) error {
 }
 
 func main() {
-	filesPath := "./test_path"
+	if len(os.Args) < 2 {
+		log.Println("Usage: go run main.go <filePath>")
+		return
+	}
+	filesPath := os.Args[1]
 	processFiles(filesPath)
 }
