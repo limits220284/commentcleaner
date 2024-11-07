@@ -21,6 +21,9 @@ func processFiles(filesPath string) error {
 	processedFilesPath := filepath.Dir(abFilesPath) + "\\processed_" + filepath.Base(filesPath)
 	log.Println(processedFilesPath)
 	err := os.CopyFS(processedFilesPath, os.DirFS(filesPath))
+	if err != nil {
+		log.Fatal("copy files from source path failed!")
+	}
 	err = filepath.Walk(processedFilesPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
